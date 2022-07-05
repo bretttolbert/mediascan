@@ -1,0 +1,12 @@
+mediadir: /data/Music
+mediaexts:
+    - .mp3
+    - .m4a
+excludepath:
+    - brett tolbert
+excludetitle: []
+excludeartist: []
+excludealbum: []
+excludegenre: []
+sortby: year
+groupby: none
