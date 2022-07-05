@@ -1,9 +1,10 @@
 # mediascan
 
-A simple and fast Go utility to recursively scan a directory for media files, extract metadata (including ID3v2 tags from both MP3 and M4A files), and save the output in a simple yaml format e.g. [files.yaml](files.yaml). 
+A simple and fast Go (golang) command-line utility to recursively scan a directory for media files, extract metadata (including ID3v2 tags from both MP3 and M4A files), and save the output in a simple yaml format e.g. [files.yaml](files.yaml). 
 
 - Reads configuration from yaml file e.g. [conf.yaml](conf.yaml)
 - Has only two required command-line arguments: `{config yaml filepath}` and `{output yaml filepath}`
+- Created specifically to run fast on a Raspberry Pi single-board computer as part of my other (Python) project: [timebox](https://github.com/bretttolbert/timebox)
 
 ## Dependencies (Go Modules)
 - [tag](https://github.com/dhowden/tag)
