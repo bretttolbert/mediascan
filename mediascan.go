@@ -3,14 +3,17 @@ package main
 import (
     "fmt"
     "log"
+    "io"
     "io/ioutil"
     "os"
+    "math"
     "strconv"
     "strings"
     "sort"
     "path/filepath"
     "github.com/dhowden/tag"
     "gopkg.in/yaml.v3"
+    "github.com/tcolgate/mp3"
 )
 
 type MediascanConf struct {
@@ -34,6 +37,7 @@ type MediaFile struct {
     Album string
     Genre string
     Year int
+    Duration float64
 }
 
 type MediaFileList struct {
@@ -89,6 +93,29 @@ func loadConf(configYamlFilepath string) (conf MediascanConf) {
     err2 := yaml.Unmarshal(yfile, &conf)
     check(err2)
     return
+}
+
+func getMp3Duration(path string) (duration float64) {
+    t := 0.0
+    r, err := os.Open(path)
+    if err != nil {
+        fmt.Println(err)
+        return 0.0
+    }
+    d := mp3.NewDecoder(r)
+    var f mp3.Frame
+    skipped := 0
+    for {
+        if err := d.Decode(&f, &skipped); err != nil {
+            if err == io.EOF {
+                break
+            }
+            fmt.Println(err)
+            return 0.0
+        }
+        t = t + f.Duration().Seconds()
+    }
+    return math.Round(t*100)/100
 }
 
 func main() {
@@ -164,7 +191,13 @@ func main() {
             m.Album = tags.Album()
             m.Genre = tags.Genre()
             m.Year = tags.Year()
+            m.Duration = 0.0
+            if ext == ".mp3" {
+                m.Duration = getMp3Duration(path)
+            }
+
             mediaFileList.MediaFiles = append(mediaFileList.MediaFiles, m)
+            
             return nil
         })
     if err != nil {

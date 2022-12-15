@@ -22,6 +22,30 @@ user	0m1.832s
 sys	0m1.232s
 ```
 
+## Performance Demo 1.5 - desktop PC with decade old i7 CPU
+Much slower on first run. Why?
+
+First run:
+```
+2022/12/14 06:55:32 Successfully loaded 9124 media files
+2022/12/14 06:55:32 Skipped 179 excluded media files
+
+real	3m6.427s
+user	0m4.687s
+sys	0m5.567s
+
+Second run:
+```
+2022/12/14 07:09:53 Successfully loaded 9124 media files
+2022/12/14 07:09:53 Skipped 179 excluded media files
+
+real	0m3.637s
+user	0m2.410s
+sys	0m1.299s
+
+```
+
+
 ## Performance Demo 2 - Raspberry Pi 4 model B
 ```bash
 $ time go run mediascan.go conf.yaml files.yaml
