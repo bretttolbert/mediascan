@@ -99,7 +99,7 @@ func getMp3Duration(path string) (duration float64) {
     t := 0.0
     r, err := os.Open(path)
     if err != nil {
-        fmt.Println(err)
+        log.Printf("getMp3Duration error: %v", err)
         return 0.0
     }
     d := mp3.NewDecoder(r)
@@ -157,7 +157,7 @@ func main() {
             tags, err2 := tag.ReadFrom(f)
             if err2 != nil {
                 countFailed += 1
-                log.Printf("ERROR: %v", err2)
+                log.Printf("ERROR01: %v", err2)
                 return nil
             }
 
@@ -201,7 +201,7 @@ func main() {
             return nil
         })
     if err != nil {
-        log.Printf("ERROR: %v", err)
+        log.Printf("ERROR02: %v", err)
     }
 
     if conf.SortBy == "year" {
@@ -213,7 +213,6 @@ func main() {
             return mediaFileList.MediaFiles[i].Artist < mediaFileList.MediaFiles[j].Artist
         })
     }
-
 
     log.Printf("Successfully loaded %d media files", len(mediaFileList.MediaFiles))
     if countFailed > 0 {

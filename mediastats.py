@@ -102,11 +102,11 @@ def plt_year_vs_duration(data):
 
 def main():
     data = load_yaml_file('files.yaml')
-    #plt_year_counts(data)
+    plt_year_counts(data)
     #plt_genre_counts(data)
     #plt_file_sizes(data)
     #plt_file_durations(data)
-    plt_year_vs_duration(data)
+    #plt_year_vs_duration(data)
     plt.show()
 
 if __name__ == "__main__":
