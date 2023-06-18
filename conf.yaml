@@ -1,4 +1,4 @@
-mediadir: /data/Music
+mediadir: /home/pi/Music
 mediaexts:
     - .mp3
     - .m4a
