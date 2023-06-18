@@ -7,8 +7,20 @@ A simple and fast Go (golang) command-line utility to recursively scan a directo
 - Created specifically to run fast on a Raspberry Pi single-board computer as part of my other (Python) project: [timebox](https://github.com/bretttolbert/timebox)
 
 ## Dependencies (Go Modules)
-- [tag](https://github.com/dhowden/tag)
-- [yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3)
+- [tag](https://github.com/dhowden/tag) (Used for reading ID3 tags)
+- [yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3) (Used for generating files.yaml)
+- [mp3](github.com/tcolgate/mp3) (Used for calculating MP3 duration)
+
+### Installing Go modules
+
+```bash
+cd $GOPATH
+mkdir -p src/github.com/tcolgate
+cd src/github.com/tcolgate
+git clone git@github.com:tcolgate/mp3.git
+cd mp3
+go install
+```
 
 ## Performance Demo 1 - desktop PC with decade old i7 CPU
 ```bash
