@@ -6,14 +6,24 @@ A simple and fast Go (golang) command-line utility to recursively scan a directo
 - Has only two required command-line arguments: `{config yaml filepath}` and `{output yaml filepath}`
 - Created specifically to run fast on a Raspberry Pi single-board computer as part of my other (Python) project: [timebox](https://github.com/bretttolbert/timebox)
 
-## Dependencies (Go Modules)
-- [tag](https://github.com/dhowden/tag) (Used for reading ID3 tags)
+## Dependencies
 - [yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3) (Used for generating files.yaml)
+- [tag](https://github.com/bretttolbert/tag) (Used for reading ID3 tags)
+    - Note: Currently using my fork of [dhowden/tag](https://github.com/dhowden/tag), in which I added support for [genre codes in the 148-191 range](https://en.wikipedia.org/wiki/List_of_ID3v1_genres#Extension_by_Winamp). If they merge my [PR](https://github.com/dhowden/tag/pull/103), I'll switch back to dhowden/tag.
 - [mp3](github.com/tcolgate/mp3) (Used for calculating MP3 duration)
+    - Note: Mp3 duration calculation can be disabed by setting `getmp3duration: false` in `conf.yaml`. It's currently set to disabled because this library is suddenly unexpected slow for me.
 
-### Installing Go modules
+### Installing Go dependencies
 
 ```bash
+export GO111MODULE="off" 
+go get gopkg.in/yaml.v3
+cd $GOPATH
+mkdir -p src/github.com/bretttolbert
+cd src/github.com/bretttolbert
+git clone git@github.com:bretttolbert/tag.git
+cd tag
+go install
 cd $GOPATH
 mkdir -p src/github.com/tcolgate
 cd src/github.com/tcolgate
@@ -90,7 +100,8 @@ sys	0m14.305s
 | `excludealbum` | id3 album substrings to exclude from scan results (case-insensitive) |
 | `excludegenre` | id3 genre substrings to exclude from scan results (case-insensitive) |
 | `sortby` | (`year`, `artist`, `none`) media file sort options |
-| `groupby` | (`none`, `year` ) group media files into playlists using the specified tag |
+| `groupby` | (`none`, `year`) group media files into playlists using the specified tag |
+| `getmp3duration` | (`true`, `false`) whether to calculate mp3 duration using `tcolgate/mp3` (**warning: slow*) |
 
 ## Installing Dependencies
 

@@ -11,7 +11,7 @@ import (
     "strings"
     "sort"
     "path/filepath"
-    "github.com/dhowden/tag"
+    "github.com/bretttolbert/tag"
     "gopkg.in/yaml.v3"
     "github.com/tcolgate/mp3"
 )
@@ -26,6 +26,7 @@ type MediascanConf struct {
     ExcludeGenre []string
     SortBy string
     GroupBy string
+    GetMp3Duration bool
 }
 
 type MediaFile struct {
@@ -133,6 +134,7 @@ func main() {
     countSkipped := 0
     err := filepath.Walk(conf.MediaDir,
         func(path string, info os.FileInfo, err error) error {
+            log.Printf("Reading filepath %s", path)
             if err != nil {
                 return err
             }
@@ -192,7 +194,7 @@ func main() {
             m.Genre = tags.Genre()
             m.Year = tags.Year()
             m.Duration = 0.0
-            if ext == ".mp3" {
+            if conf.GetMp3Duration && ext == ".mp3" {
                 m.Duration = getMp3Duration(path)
             }
 
