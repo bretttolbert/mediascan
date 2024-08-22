@@ -1,8 +1,10 @@
-mediadir: /data/Music
+mediadirs: 
+    - /data/Music
+    - /data/MusicOther
 mediaexts:
     - .mp3
     - .m4a
-excludepath:
+excludepaths:
     - brett tolbert
 excludetitle: []
 excludeartist: []
