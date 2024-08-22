@@ -2,11 +2,21 @@
 
 A simple and fast Go (golang) command-line utility to recursively scan a directory for media files, extract metadata (including ID3v2 tags from both MP3 and M4A files), and save the output in a simple yaml format e.g. [files.yaml](files.yaml). 
 
+## Features
+
 - Reads configuration from yaml file e.g. [conf.yaml](conf.yaml)
 - Has only two required command-line arguments: `{config yaml filepath}` and `{output yaml filepath}`
 - Created specifically to run fast on a Raspberry Pi single-board computer as part of my other (Python) project: [timebox](https://github.com/bretttolbert/timebox)
+- Bonus: `medistats.py` is a python script that generates some interesting data plots based on the yaml output by `mediascan`
 
-## Dependencies
+## Basic Usage (mediscan and mediastats)
+
+```bash
+go run mediascan.go conf.yaml files.yaml
+python3 mediastats.py files.yaml
+```
+
+### Dependencies
 - [yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3) (Used for generating files.yaml)
 - [tag](https://github.com/bretttolbert/tag) (Used for reading ID3 tags)
     - Note: Currently using my fork of [dhowden/tag](https://github.com/dhowden/tag), in which I added support for [genre codes in the 148-191 range](https://en.wikipedia.org/wiki/List_of_ID3v1_genres#Extension_by_Winamp). If they merge my [PR](https://github.com/dhowden/tag/pull/103), I'll switch back to dhowden/tag.
