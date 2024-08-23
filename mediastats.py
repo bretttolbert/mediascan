@@ -81,7 +81,9 @@ def get_year_counts(data: Data) -> Dict[int, int]:
     return counts
 
 
-def get_genre_counts(data: Data, min_val: int) -> Dict[str, int]:
+def get_genre_counts(
+    data: Data, min_val: int, reverse_sort: bool = False
+) -> Dict[str, int]:
     counts: Dict[str, int] = {}
     for file in data.mediafiles:
         genre = file.genre
@@ -91,7 +93,11 @@ def get_genre_counts(data: Data, min_val: int) -> Dict[str, int]:
             print(f"adding new genre '{genre}'")
             counts[genre] = 1
     counts_above_min_val = {k: v for (k, v) in counts.items() if v >= min_val}
-    return dict(sorted(counts_above_min_val.items(), key=lambda item: item[1]))
+    return dict(
+        sorted(
+            counts_above_min_val.items(), key=lambda item: item[1], reverse=reverse_sort
+        )
+    )
 
 
 def get_file_sizes(data: Data) -> List[int]:
@@ -158,7 +164,7 @@ def print_genres(data: Data):
 
 
 def print_genre_counts(data: Data):
-    counts = get_genre_counts(data, 1)
+    counts = get_genre_counts(data, 1, reverse_sort=True)
     print(counts)
 
 
