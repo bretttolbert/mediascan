@@ -162,13 +162,13 @@ def main():
         print("Usage: {0} <files yaml file>".format(sys.argv[0]))
     else:
         data = load_yaml_file(sys.argv[1])
-        print_genres(data)
+        # print_genres(data)
         # plt_year_counts(data)
-        # plt_genre_counts(data, 20)
+        plt_genre_counts(data, 20)
         # plt_file_sizes(data)
         # plt_file_durations(data)
         # plt_year_vs_duration(data)
-        # plt.show()  # type: ignore
+        plt.show()  # type: ignore
 
 
 if __name__ == "__main__":
