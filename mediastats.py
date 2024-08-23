@@ -90,7 +90,7 @@ def get_genre_counts(data: Data, min_val: int) -> Dict[str, int]:
         else:
             print(f"adding new genre '{genre}'")
             counts[genre] = 1
-    counts_above_min_val = {k: v for (k, v) in counts.items() if v > min_val}
+    counts_above_min_val = {k: v for (k, v) in counts.items() if v >= min_val}
     return dict(sorted(counts_above_min_val.items(), key=lambda item: item[1]))
 
 
@@ -157,18 +157,24 @@ def print_genres(data: Data):
     print(sorted(genres))
 
 
+def print_genre_counts(data: Data):
+    counts = get_genre_counts(data, 1)
+    print(counts)
+
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: {0} <files yaml file>".format(sys.argv[0]))
     else:
         data = load_yaml_file(sys.argv[1])
+        print_genre_counts(data)
         # print_genres(data)
         # plt_year_counts(data)
-        plt_genre_counts(data, 20)
+        # plt_genre_counts(data, 20)
         # plt_file_sizes(data)
         # plt_file_durations(data)
         # plt_year_vs_duration(data)
-        plt.show()  # type: ignore
+        # plt.show()  # type: ignore
 
 
 if __name__ == "__main__":
