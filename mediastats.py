@@ -6,7 +6,7 @@ import logging
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from typing import Dict, List
+from typing import Dict, List, Set
 
 from dataclasses import dataclass
 from datetime import time
@@ -150,17 +150,25 @@ def plt_year_vs_duration(data: Data):
     plt.ylim(0, 3000)  # type: ignore
 
 
+def print_genres(data: Data):
+    genres: Set[str] = set()  # type: ignore
+    for f in data.mediafiles:
+        genres.add(f.genre)
+    print(sorted(genres))
+
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: {0} <files yaml file>".format(sys.argv[0]))
     else:
         data = load_yaml_file(sys.argv[1])
-        plt_year_counts(data)
+        print_genres(data)
+        # plt_year_counts(data)
         # plt_genre_counts(data, 20)
         # plt_file_sizes(data)
         # plt_file_durations(data)
         # plt_year_vs_duration(data)
-        plt.show()  # type: ignore
+        # plt.show()  # type: ignore
 
 
 if __name__ == "__main__":
