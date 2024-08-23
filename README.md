@@ -7,7 +7,7 @@ A simple and fast Go (golang) command-line utility to recursively scan a directo
 - Reads configuration from yaml file e.g. [conf.yaml](conf.yaml)
 - Has only two required command-line arguments: `{config yaml filepath}` and `{output yaml filepath}`
 - Created specifically to run fast on a Raspberry Pi single-board computer as part of my other (Python) project: [timebox](https://github.com/bretttolbert/timebox)
-- Bonus: `medistats.py` is a python script that generates some interesting data plots based on the yaml output by `mediascan`
+- Bonus: [medistats.py](./mediastats.py) is a python script that generates some interesting data plots based on the yaml output by `mediascan`
 - See Also: [mediatest](https://github.com/bretttolbert/mediatest)
 
 ## Basic Usage (mediscan and mediastats)
