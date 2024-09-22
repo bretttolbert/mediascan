@@ -3,13 +3,13 @@ from __future__ import annotations
 import yaml
 import sys
 import logging
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Tuple
 
 from dataclasses import dataclass
-from datetime import time
 
 from dataclass_wizard import YAMLWizard  # type: ignore
 
@@ -51,9 +51,9 @@ class Mediafile:
     path: str
     size: int
     format: str
-    title: str | int | float | bool
-    artist: str | bool | int
-    album: str | int | float | bool | time
+    title: str
+    artist: str
+    album: str
     genre: str
     year: int
     duration: int
@@ -169,19 +169,41 @@ def print_genre_counts(data: Data):
     print(counts)
 
 
+def get_album_paths(data: Data) -> Set[Tuple[str, str]]:
+    """returns set of tuples of (album,path)"""
+    albums: Set[Tuple[str, str]] = set()
+    for f in data.mediafiles:
+        albums.add((f.album, os.path.dirname(f.path)))
+    return albums
+
+
+def print_covers(data: Data):
+    """Use this to find low-resolution album cover files that need to be updated to high-res"""
+    album_paths = get_album_paths(data)
+    cover_paths: List[Tuple[str, int]] = []
+    for _, path in album_paths:
+        cover_path = os.path.join(path, "cover.jpg")
+        cover_size = os.path.getsize(cover_path)
+        cover_paths.append((cover_path, cover_size))
+    cover_paths = sorted(cover_paths, key=lambda item: item[1], reverse=True)
+    for cover_path, size in cover_paths:
+        print(f"{cover_path} {size}")
+
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: {0} <files yaml file>".format(sys.argv[0]))
     else:
         data = load_yaml_file(sys.argv[1])
+        print_covers(data)
         # print_genre_counts(data)
         # print_genres(data)
         # plt_year_counts(data)
-        plt_genre_counts(data, 20)
+        # plt_genre_counts(data, 20)
         # plt_file_sizes(data)
         # plt_file_durations(data)
         # plt_year_vs_duration(data)
-        plt.show()  # type: ignore
+        # plt.show()  # type: ignore
 
 
 if __name__ == "__main__":
