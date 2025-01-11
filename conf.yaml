@@ -8,6 +8,7 @@ excludepaths:
     - brett tolbert
 excludetitle: []
 excludeartist: []
+excludealbumartist: []
 excludealbum: []
 excludegenre: []
 sortby: year

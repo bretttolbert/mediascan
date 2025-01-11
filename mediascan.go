@@ -18,28 +18,30 @@ import (
 )
 
 type MediascanConf struct {
-	MediaDirs      []string
-	MediaExts      []string
-	ExcludePaths   []string
-	ExcludeTitle   []string
-	ExcludeArtist  []string
-	ExcludeAlbum   []string
-	ExcludeGenre   []string
-	SortBy         string
-	GroupBy        string
-	GetMp3Duration bool
+	MediaDirs          []string
+	MediaExts          []string
+	ExcludePaths       []string
+	ExcludeTitle       []string
+	ExcludeArtist      []string
+	ExcludeAlbumArtist []string
+	ExcludeAlbum       []string
+	ExcludeGenre       []string
+	SortBy             string
+	GroupBy            string
+	GetMp3Duration     bool
 }
 
 type MediaFile struct {
-	Path     string
-	Size     int64
-	Format   string
-	Title    string
-	Artist   string
-	Album    string
-	Genre    string
-	Year     int
-	Duration float64
+	Path        string
+	Size        int64
+	Format      string
+	Title       string
+	Artist      string
+	AlbumArtist string
+	Album       string
+	Genre       string
+	Year        int
+	Duration    float64
 }
 
 type MediaFileList struct {
@@ -175,6 +177,11 @@ func main() {
 					countSkipped += 1
 					return nil
 				}
+				if containsAnyOf(tags.AlbumArtist(), conf.ExcludeArtist) {
+					log.Printf("Skipping %s (ExcludeAlbumArtist %s)", path, tags.AlbumArtist())
+					countSkipped += 1
+					return nil
+				}
 				if containsAnyOf(tags.Album(), conf.ExcludeAlbum) {
 					log.Printf("Skipping %s (ExcludeAlbum %s)", path, tags.Album())
 					countSkipped += 1
@@ -192,6 +199,7 @@ func main() {
 				m.Format = fmt.Sprintf("%s", tags.Format())
 				m.Title = tags.Title()
 				m.Artist = tags.Artist()
+				m.AlbumArtist = tags.AlbumArtist()
 				m.Album = tags.Album()
 				m.Genre = tags.Genre()
 				m.Year = tags.Year()
