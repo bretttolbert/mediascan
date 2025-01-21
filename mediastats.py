@@ -53,6 +53,7 @@ class Mediafile:
     format: str
     title: str
     artist: str
+    albumartist: str
     album: str
     genre: str
     year: int
@@ -177,7 +178,7 @@ def get_album_paths(data: Data) -> Set[Tuple[str, str]]:
     return albums
 
 
-def print_covers(data: Data):
+def print_covers_by_size(data: Data):
     """Use this to find low-resolution album cover files that need to be updated to high-res"""
     album_paths = get_album_paths(data)
     cover_paths: List[Tuple[str, int]] = []
@@ -195,15 +196,15 @@ def main():
         print("Usage: {0} <files yaml file>".format(sys.argv[0]))
     else:
         data = load_yaml_file(sys.argv[1])
-        print_covers(data)
+        # print_covers_by_size(data)
         # print_genre_counts(data)
         # print_genres(data)
         # plt_year_counts(data)
-        # plt_genre_counts(data, 20)
+        plt_genre_counts(data, 20)
         # plt_file_sizes(data)
         # plt_file_durations(data)
         # plt_year_vs_duration(data)
-        # plt.show()  # type: ignore
+        plt.show()  # type: ignore
 
 
 if __name__ == "__main__":
