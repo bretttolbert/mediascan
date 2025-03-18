@@ -18,23 +18,25 @@ python3 mediastats.py files.yaml
 ```
 
 ### Dependencies
-- [yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3) (Used for generating files.yaml)
-- [tag](https://github.com/bretttolbert/tag) (Used for reading ID3 tags)
-    - Note: Currently using my fork of [dhowden/tag](https://github.com/dhowden/tag), in which I added support for [genre codes in the 148-191 range](https://en.wikipedia.org/wiki/List_of_ID3v1_genres#Extension_by_Winamp). If they merge my [PR](https://github.com/dhowden/tag/pull/103), I'll switch back to dhowden/tag.
-- [mp3](github.com/tcolgate/mp3) (Used for calculating MP3 duration)
+- [gopkg.in/yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3) (Used for generating files.yaml)
+- [dhowden/tag](https://github.com/dhowden/tag) (Used for reading ID3 tags)
+    - `dhowden/tag` is a nice little Go library for ID3, MP4 and OGG/FLAC metadata parsing. I added support for [genre codes in the 148-191 range](https://en.wikipedia.org/wiki/List_of_ID3v1_genres#Extension_by_Winamp) and David was kind enough to merge my [PR](https://github.com/dhowden/tag/pull/103).
+- [tcolgate/mp3](github.com/tcolgate/mp3) (Used for calculating MP3 duration)
     - Note: Mp3 duration calculation can be disabed by setting `getmp3duration: false` in `conf.yaml`. It's currently set to disabled because this library is suddenly unexpected slow for me.
 
-### Installing Go dependencies
+### Installing Go dependencies with GO111MODULE=off
 
 ```bash
 export GO111MODULE="off" 
 go get gopkg.in/yaml.v3
+# install dhowden/tag
 cd $GOPATH
-mkdir -p src/github.com/bretttolbert
-cd src/github.com/bretttolbert
-git clone git@github.com:bretttolbert/tag.git
+mkdir -p src/github.com/dhowden
+cd src/github.com/dhowden
+git clone git@github.com:dhowden/tag.git
 cd tag
 go install
+# install tcolgate/mp3
 cd $GOPATH
 mkdir -p src/github.com/tcolgate
 cd src/github.com/tcolgate

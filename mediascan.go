@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/bretttolbert/tag"
+	"github.com/dhowden/tag"
 	"github.com/tcolgate/mp3"
 	"gopkg.in/yaml.v3"
 )
