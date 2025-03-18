@@ -21,8 +21,9 @@ python3 mediastats.py files.yaml
 - [gopkg.in/yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3) (Used for generating files.yaml)
 - [dhowden/tag](https://github.com/dhowden/tag) (Used for reading ID3 tags)
     - `dhowden/tag` is a nice little Go library for ID3, MP4 and OGG/FLAC metadata parsing. I added support for [genre codes in the 148-191 range](https://en.wikipedia.org/wiki/List_of_ID3v1_genres#Extension_by_Winamp) and David was kind enough to merge my [PR](https://github.com/dhowden/tag/pull/103).
-- [tcolgate/mp3](github.com/tcolgate/mp3) (Used for calculating MP3 duration)
-    - Note: Mp3 duration calculation can be disabed by setting `getmp3duration: false` in `conf.yaml`. It's currently set to disabled because this library is suddenly unexpected slow for me.
+- [tcolgate/mp3](https://github.com/tcolgate/mp3) (Used for calculating MP3 duration)
+    - Note: Mp3 duration calculation can be disabed by setting `getmp3duration: false` in `conf.yaml`. 
+    - It's currently disabled because this library is suddenly unexpectedly slow for me.
 
 ### Installing Go dependencies with GO111MODULE=off
 
