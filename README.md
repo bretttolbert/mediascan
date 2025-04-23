@@ -20,7 +20,7 @@ go run mediascan.go conf.midi.yaml files.midi.yaml
 ## mediastats Usage
 
 ```bash
-python3 mediastats.py files.yaml
+./mediastats.py files.yaml
 ```
 
 ## mediajuke Usage
