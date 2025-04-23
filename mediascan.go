@@ -133,11 +133,21 @@ func main() {
 	outputYamlFilepath := os.Args[2]
 	conf := loadConf(configYamlFilepath)
 	var mediaFileList MediaFileList
-	countFailed := 0
+	countLoadFailed := 0
+	countTagsFailed := 0
 	countSkipped := 0
 	for _, mediaDir := range conf.MediaDirs {
 		err := filepath.Walk(mediaDir,
 			func(path string, info os.FileInfo, err error) error {
+				var m MediaFile
+				m.Path = path
+				m.Size = info.Size()
+				m.Duration = 0.0
+				m.Format = ""
+				ext := filepath.Ext(info.Name())
+				name := strings.TrimSuffix(info.Name(), ext)
+				m.Title = name
+
 				log.Printf("Reading filepath %s", path)
 				if err != nil {
 					return err
@@ -145,7 +155,6 @@ func main() {
 				if info.IsDir() {
 					return nil
 				}
-				ext := filepath.Ext(path)
 				if !stringInSlice(ext, conf.MediaExts) {
 					return nil
 				}
@@ -162,48 +171,44 @@ func main() {
 
 				tags, err2 := tag.ReadFrom(f)
 				if err2 != nil {
-					countFailed += 1
-					log.Printf("ERROR01: %v", err2)
-					return nil
+					countTagsFailed += 1
+					//log.Printf("ERROR reading tags: %v", err2)
+				} else {
+					if containsAnyOf(tags.Title(), conf.ExcludeTitle) {
+						log.Printf("Skipping %s (ExcludeTitle %s)", path, tags.Title())
+						countSkipped += 1
+						return nil
+					}
+					if containsAnyOf(tags.Artist(), conf.ExcludeArtist) {
+						log.Printf("Skipping %s (ExcludeArtist %s)", path, tags.Artist())
+						countSkipped += 1
+						return nil
+					}
+					if containsAnyOf(tags.AlbumArtist(), conf.ExcludeArtist) {
+						log.Printf("Skipping %s (ExcludeAlbumArtist %s)", path, tags.AlbumArtist())
+						countSkipped += 1
+						return nil
+					}
+					if containsAnyOf(tags.Album(), conf.ExcludeAlbum) {
+						log.Printf("Skipping %s (ExcludeAlbum %s)", path, tags.Album())
+						countSkipped += 1
+						return nil
+					}
+					if containsAnyOf(tags.Genre(), conf.ExcludeGenre) {
+						log.Printf("Skipping %s (ExcludeGenre %s)", path, tags.Genre())
+						countSkipped += 1
+						return nil
+					}
+
+					m.Format = string(tags.Format())
+					m.Title = tags.Title()
+					m.Artist = tags.Artist()
+					m.AlbumArtist = tags.AlbumArtist()
+					m.Album = tags.Album()
+					m.Genre = tags.Genre()
+					m.Year = tags.Year()
 				}
 
-				if containsAnyOf(tags.Title(), conf.ExcludeTitle) {
-					log.Printf("Skipping %s (ExcludeTitle %s)", path, tags.Title())
-					countSkipped += 1
-					return nil
-				}
-				if containsAnyOf(tags.Artist(), conf.ExcludeArtist) {
-					log.Printf("Skipping %s (ExcludeArtist %s)", path, tags.Artist())
-					countSkipped += 1
-					return nil
-				}
-				if containsAnyOf(tags.AlbumArtist(), conf.ExcludeArtist) {
-					log.Printf("Skipping %s (ExcludeAlbumArtist %s)", path, tags.AlbumArtist())
-					countSkipped += 1
-					return nil
-				}
-				if containsAnyOf(tags.Album(), conf.ExcludeAlbum) {
-					log.Printf("Skipping %s (ExcludeAlbum %s)", path, tags.Album())
-					countSkipped += 1
-					return nil
-				}
-				if containsAnyOf(tags.Genre(), conf.ExcludeGenre) {
-					log.Printf("Skipping %s (ExcludeGenre %s)", path, tags.Genre())
-					countSkipped += 1
-					return nil
-				}
-
-				var m MediaFile
-				m.Path = path
-				m.Size = info.Size()
-				m.Format = fmt.Sprintf("%s", tags.Format())
-				m.Title = tags.Title()
-				m.Artist = tags.Artist()
-				m.AlbumArtist = tags.AlbumArtist()
-				m.Album = tags.Album()
-				m.Genre = tags.Genre()
-				m.Year = tags.Year()
-				m.Duration = 0.0
 				if conf.GetMp3Duration && ext == ".mp3" {
 					m.Duration = getMp3Duration(path)
 				}
@@ -213,7 +218,8 @@ func main() {
 				return nil
 			})
 		if err != nil {
-			log.Printf("ERROR02: %v", err)
+			log.Printf("ERROR loading file: %v", err)
+			countLoadFailed += 1
 		}
 	}
 
@@ -228,8 +234,11 @@ func main() {
 	}
 
 	log.Printf("Successfully loaded %d media files", len(mediaFileList.MediaFiles))
-	if countFailed > 0 {
-		log.Printf("Failed to load %d media files", countFailed)
+	if countLoadFailed > 0 {
+		log.Printf("Failed to load for %d media files", countLoadFailed)
+	}
+	if countTagsFailed > 0 {
+		log.Printf("Failed to load tags for %d media files", countTagsFailed)
 	}
 	if countSkipped > 0 {
 		log.Printf("Skipped %d excluded media files", countSkipped)
@@ -248,12 +257,12 @@ func main() {
 		}
 		yamlData, err := yaml.Marshal(&mediaFilePlaylistList)
 		check(err)
-		err2 := ioutil.WriteFile(outputYamlFilepath, yamlData, 0644)
+		err2 := os.WriteFile(outputYamlFilepath, yamlData, 0644)
 		check(err2)
 	} else {
 		yamlData, err := yaml.Marshal(&mediaFileList)
 		check(err)
-		err2 := ioutil.WriteFile(outputYamlFilepath, yamlData, 0644)
+		err2 := os.WriteFile(outputYamlFilepath, yamlData, 0644)
 		check(err2)
 	}
 }

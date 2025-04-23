@@ -24,7 +24,7 @@ logging.basicConfig(
     level=logging.INFO,
     format=log_format,
     handlers=[
-        logging.FileHandler("timebox.log", encoding="utf-8"),
+        logging.FileHandler("mediastats.log", encoding="utf-8"),
         logging.StreamHandler(),
     ],
 )
