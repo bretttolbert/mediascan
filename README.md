@@ -10,11 +10,23 @@ A simple and fast Go (golang) command-line utility to recursively scan a directo
 - Bonus: [medistats.py](./mediastats.py) is a python script that generates some interesting data plots based on the yaml output by `mediascan`
 - See Also: [mediatest](https://github.com/bretttolbert/mediatest)
 
-## Basic Usage (mediscan and mediastats)
+## mediascan Usage
 
 ```bash
 go run mediascan.go conf.yaml files.yaml
+go run mediascan.go conf.midi.yaml files.midi.yaml
+```
+
+## mediastats Usage
+
+```bash
 python3 mediastats.py files.yaml
+```
+
+## mediajuke Usage
+```bash
+./mediajuke.py vlc files.yaml
+./mediajuke.py timidity files.midi.yaml
 ```
 
 ### Dependencies
