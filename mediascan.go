@@ -11,6 +11,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/dhowden/tag"
 	"github.com/tcolgate/mp3"
@@ -42,6 +43,7 @@ type MediaFile struct {
 	Genre       string
 	Year        int
 	Duration    float64
+	ModTime     time.Time
 }
 
 type MediaFileList struct {
@@ -142,6 +144,7 @@ func main() {
 				var m MediaFile
 				m.Path = path
 				m.Size = info.Size()
+				m.ModTime = info.ModTime()
 				m.Duration = 0.0
 				m.Format = ""
 				ext := filepath.Ext(info.Name())
