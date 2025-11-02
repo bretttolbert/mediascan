@@ -7,7 +7,7 @@
 
 `mediascan` Python library
 - Defines data classes ([`MediaFiles`](./mediascan/src/mediafiles.py), [`MediaFile`](./mediascan/src/mediafile.py)) for working with the YAML files output by `mediascan.go`.
-- Defines comprehensive [`Genre`](./mediascan/src/genres.py) enum used by [`mediatest`](https://github.com/bretttolbert/mediatest/).
+- Defines comprehensive [`Genre`](./mediascan/src/genres.py) enum (used by my other project [`mediatest`](https://github.com/bretttolbert/mediatest/)).
     - This is a `StrEnum` with string values corresponding to the expected ID3 tag values. 
     - This helps avoid inconsistencies e.g. _"Post-punk"_ vs. _"Post-Punk"_ vs. _"Post punk"_ vs. _"Post Punk"_, by using [`mediatest`](https://github.com/bretttolbert/mediatest/) to test ID3 tags against `Genre` enum values.
 - Includes extra Python scripts [`mediastats`](./mediascan/src/mediastats.py), [`mediajuke`](./mediascan/src/mediajuke.py) and [`mediacopy`](./mediascan/src/mediacopy.py).
