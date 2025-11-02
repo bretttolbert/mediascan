@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from __future__ import annotations
 import yaml
 import sys
@@ -9,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from typing import Dict, List, Set, Tuple
 
-from mediascan.src.mediafiles import MediaFiles
+from mediascan import MediaFiles, load_files_yaml
 
 """
 mediastats.py
@@ -27,17 +26,6 @@ logging.basicConfig(
     ],
 )
 log = logging.getLogger(__name__)
-
-
-def load_files_yaml(yaml_fname: str) -> MediaFiles:
-    files = None
-    with open(yaml_fname, "r") as stream:
-        try:
-            files = MediaFiles.from_yaml(stream)  # type: ignore
-        except yaml.YAMLError as exc:
-            log.error(exc)
-            sys.exit(1)
-    return files  # type: ignore
 
 
 def get_year_counts(files: MediaFiles) -> Dict[int, int]:
@@ -164,15 +152,15 @@ def main():
     if len(sys.argv) != 2:
         print("Usage: {0} <files yaml file>".format(sys.argv[0]))
     else:
-        data = load_files_yaml(sys.argv[1])
-        # print_covers_by_size(data)
-        # print_genre_counts(data)
-        # print_genres(data)
-        # plt_year_counts(data)
-        plt_genre_counts(data, 20)
-        # plt_file_sizes(data)
-        # plt_file_durations(data)
-        # plt_year_vs_duration(data)
+        files = load_files_yaml(sys.argv[1])
+        # print_covers_by_size(files)
+        # print_genre_counts(files)
+        # print_genres(files)
+        # plt_year_counts(files)
+        plt_genre_counts(files, 20)
+        # plt_file_sizes(files)
+        # plt_file_durations(files)
+        # plt_year_vs_duration(files)
         plt.show()  # type: ignore
 
 

@@ -10,10 +10,9 @@
 - Defines comprehensive [`Genre`](./mediascan/src/genres.py) enum (used by my other project [`mediatest`](https://github.com/bretttolbert/mediatest/)).
     - This is a `StrEnum` with string values corresponding to the expected ID3 tag values. 
     - This helps avoid inconsistencies e.g. _"Post-punk"_ vs. _"Post-Punk"_ vs. _"Post punk"_ vs. _"Post Punk"_, by using [`mediatest`](https://github.com/bretttolbert/mediatest/) to test ID3 tags against `Genre` enum values.
-- Includes extra Python scripts [`mediastats`](./mediascan/src/mediastats.py), [`mediajuke`](./mediascan/src/mediajuke.py) and [`mediacopy`](./mediascan/src/mediacopy.py).
-- Extra scripts:
-    - [mediastats.py](./mediascan/src/mediastats.py) generates some interesting data plots based on the files in a given `yaml`file
-    - [mediajuke.py](./mediascan/src/mediajuke.py) plays a random media file chosen from all the files in a given `yaml` file
+- Includes Python scripts [`mediastats`](./scripts/mediastats.py), [`mediajuke`](./scripts/mediajuke.py) and [`mediacopy`](./scripts/mediacopy.py):
+    - [mediastats.py](./scripts/mediastats.py) generates some interesting data plots based on the files in a given `yaml`file
+    - [mediajuke.py](./scripts/mediajuke.py) plays a random media file chosen from all the files in a given `yaml` file
 
 ## See Also
 - [mediatest](https://github.com/bretttolbert/mediatest) - Simple way to use PyTest to help you keep your media collections (e.g. mp3 music libraries) organized
@@ -50,18 +49,18 @@ The mediascan.go YAML configuration file (example: [conf.yaml](./conf/conf.yaml)
     - Note: Mp3 duration calculation can be disabed by setting `getmp3duration: false` in `conf.yaml`. 
     - It's currently disabled because this library is suddenly unexpectedly slow for me.
 
-## Extra Python Scripts Reference
+## Scripts Reference
 
 ### mediastats Usage
 
 ```bash
-python mediascan/src/mediastats.py out/files.yaml
+python scripts/mediastats.py out/files.yaml
 ```
 
 ### mediajuke Usage
 ```bash
-python mediascan/src/mediajuke.py vlc out/files.yaml
-python mediascan/src/mediajuke.py timidity out/files.midi.yaml
+python scripts/mediajuke.py vlc out/files.yaml
+python scripts/mediajuke.py timidity out/files.midi.yaml
 ```
 
 ### Installing Go dependencies with GO111MODULE=off
