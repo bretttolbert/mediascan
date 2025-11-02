@@ -1,12 +1,11 @@
 # mediascan
 
-`mediascan.go` - A simple and fast Go (golang) command-line utility to recursively scan a directory for media files, extract metadata (including ID3v2 tags from both MP3 and M4A files), and save the output in a simple YAML format e.g. [files.yaml](/out/files.yaml). 
+[`mediascan.go`](./mediascan/src/mediascan.go) - A simple and fast Go (golang) command-line utility to recursively scan a directory for media files, extract metadata (including ID3v2 tags from both MP3 and M4A files), and save the output in a simple YAML format e.g. [files.yaml](/out/files.yaml). 
 
-`mediascan` Python library for working the YAML files output by `mediascan.go`. 
-See:
-- [`Genre`](./mediascan/src/genres.py)
-- [`MediaFiles`](./mediascan/src/mediafiles.py)
-- [`MediaFile`](./mediascan/src/mediafile.py)
+`mediascan` Python library
+- Defines classes ([`MediaFiles`](./mediascan/src/mediafiles.py), [`MediaFile`](./mediascan/src/mediafile.py)) for working with the YAML files output by `mediascan.go`.
+- Defines [`Genre`](./mediascan/src/genres.py) enum used by [`mediatest`](https://github.com/bretttolbert/mediatest/).
+- Includes Python scripts [`mediastats`](./mediascan/src/mediastats.py), [`mediajuke`](./mediascan/src/mediajuke.py) and [`mediacopy`](./mediascan/src/mediacopy.py).
 
 ## Features
 
@@ -18,7 +17,7 @@ See:
     - [mediajuke.py](./mediajuke.py) plays a random media file chosen from all the files in a given `yaml` file
 - See Also: [mediatest](https://github.com/bretttolbert/mediatest)
 
-## mediascan Usage
+## mediascan.go Usage
 
 ```bash
 go run mediascan/src/mediascan.go conf/conf.yaml out/files.yaml
