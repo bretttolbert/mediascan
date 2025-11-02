@@ -3,7 +3,7 @@
 [`mediascan.go`](./mediascan/src/mediascan.go) - A simple and fast Go (golang) command-line utility to recursively scan a directory for media files, extract metadata (including ID3v2 tags from both MP3 and M4A files), and save the output in a simple YAML format e.g. [files.yaml](/out/files.yaml). 
 
 `mediascan` Python library
-- Defines classes ([`MediaFiles`](./mediascan/src/mediafiles.py), [`MediaFile`](./mediascan/src/mediafile.py)) for working with the YAML files output by `mediascan.go`.
+- Defines data classes ([`MediaFiles`](./mediascan/src/mediafiles.py), [`MediaFile`](./mediascan/src/mediafile.py)) for working with the YAML files output by `mediascan.go`.
 - Defines comprehensive [`Genre`](./mediascan/src/genres.py) enum used by [`mediatest`](https://github.com/bretttolbert/mediatest/).
     - This is a `StrEnum` with string values corresponding to the expected ID3 tag values. 
     - This helps avoid inconsistencies e.g. _"Post-punk"_ vs. _"Post-Punk"_ vs. _"Post punk"_ vs. _"Post Punk"_, by using [`mediatest`](https://github.com/bretttolbert/mediatest/) to test ID3 tags against `Genre` enum values.
