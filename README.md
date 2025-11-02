@@ -12,7 +12,7 @@
     - This helps avoid inconsistencies e.g. _"Post-punk"_ vs. _"Post-Punk"_ vs. _"Post punk"_ vs. _"Post Punk"_, by using [`mediatest`](https://github.com/bretttolbert/mediatest/) to test ID3 tags against `Genre` enum values.
 - Includes extra Python scripts [`mediastats`](./mediascan/src/mediastats.py), [`mediajuke`](./mediascan/src/mediajuke.py) and [`mediacopy`](./mediascan/src/mediacopy.py).
 - Extra scripts:
-    - [medistats.py](./mediascan/src/mediastats.py) generates some interesting data plots based on the files in a given `yaml`file
+    - [mediastats.py](./mediascan/src/mediastats.py) generates some interesting data plots based on the files in a given `yaml`file
     - [mediajuke.py](./mediascan/src/mediajuke.py) plays a random media file chosen from all the files in a given `yaml` file
 
 ## See Also
@@ -23,7 +23,6 @@
 
 ```bash
 go run mediascan/src/mediascan.go conf/conf.yaml out/files.yaml
-go run mediascan/src/mediascan.go conf/conf.midi.yaml out/files.midi.yaml
 ```
 
 ## mediascan.go YAML Configuration file Reference
