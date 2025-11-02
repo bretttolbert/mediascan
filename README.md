@@ -1,22 +1,19 @@
 # mediascan
 
 [`mediascan.go`](./mediascan/src/mediascan.go) - A simple and fast Go (golang) command-line utility to recursively scan a directory for media files, extract metadata (including ID3v2 tags from both MP3 and M4A files), and save the output in a simple YAML format e.g. [files.yaml](/out/files.yaml). 
+- Reads configuration from yaml file e.g. [conf.yaml](conf/conf.yaml)
+- Has only two required command-line arguments: `{config yaml filepath}` and `{output yaml filepath}`
+- Created specifically to run fast on a Raspberry Pi single-board computer as part of another project of mine.
 
 `mediascan` Python library
 - Defines data classes ([`MediaFiles`](./mediascan/src/mediafiles.py), [`MediaFile`](./mediascan/src/mediafile.py)) for working with the YAML files output by `mediascan.go`.
 - Defines comprehensive [`Genre`](./mediascan/src/genres.py) enum used by [`mediatest`](https://github.com/bretttolbert/mediatest/).
     - This is a `StrEnum` with string values corresponding to the expected ID3 tag values. 
     - This helps avoid inconsistencies e.g. _"Post-punk"_ vs. _"Post-Punk"_ vs. _"Post punk"_ vs. _"Post Punk"_, by using [`mediatest`](https://github.com/bretttolbert/mediatest/) to test ID3 tags against `Genre` enum values.
-- Includes Python scripts [`mediastats`](./mediascan/src/mediastats.py), [`mediajuke`](./mediascan/src/mediajuke.py) and [`mediacopy`](./mediascan/src/mediacopy.py).
-
-## Features
-
-- Reads configuration from yaml file e.g. [conf.yaml](conf.yaml)
-- Has only two required command-line arguments: `{config yaml filepath}` and `{output yaml filepath}`
-- Created specifically to run fast on a Raspberry Pi single-board computer as part of my other (Python) project: [timebox](https://github.com/bretttolbert/timebox)
+- Includes extra Python scripts [`mediastats`](./mediascan/src/mediastats.py), [`mediajuke`](./mediascan/src/mediajuke.py) and [`mediacopy`](./mediascan/src/mediacopy.py).
 - Extra scripts:
-    - [medistats.py](./mediastats.py) generates some interesting data plots based on the files in a given `yaml`file
-    - [mediajuke.py](./mediajuke.py) plays a random media file chosen from all the files in a given `yaml` file
+    - [medistats.py](./mediascan/src/mediastats.py) generates some interesting data plots based on the files in a given `yaml`file
+    - [mediajuke.py](./mediascan/src/mediajuke.py) plays a random media file chosen from all the files in a given `yaml` file
 - See Also: [mediatest](https://github.com/bretttolbert/mediatest)
 
 ## mediascan.go Usage
@@ -26,17 +23,22 @@ go run mediascan/src/mediascan.go conf/conf.yaml out/files.yaml
 go run mediascan/src/mediascan.go conf/conf.midi.yaml out/files.midi.yaml
 ```
 
-## mediastats Usage
+## mediascan.go YAML Configuration file Reference
 
-```bash
-python mediascan/src/mediastats.py out/files.yaml
-```
+The mediascan.go YAML configuration file (example: [conf.yaml](./conf/conf.yaml)) supports the following parameters:
 
-## mediajuke Usage
-```bash
-python mediascan/src/mediajuke.py vlc out/files.yaml
-python mediascan/src/mediajuke.py timidity out/files.midi.yaml
-```
+| Property | Description |
+| -------- | ----------- |
+| `mediadir` | the path to the directory to be scanned |
+| `mediaexts` | the file extensions to be included in the scan |
+| `excludepath` | path substrings to exclude from scan (case-insensitive) |
+| `excludetitle` | id3 title substrings to exclude from scan results (case-insensitive) |
+| `excludetitle` | id3 artist substrings to exclude from scan results (case-insensitive) |
+| `excludealbum` | id3 album substrings to exclude from scan results (case-insensitive) |
+| `excludegenre` | id3 genre substrings to exclude from scan results (case-insensitive) |
+| `sortby` | (`year`, `artist`, `none`) media file sort options |
+| `groupby` | (`none`, `year`) group media files into playlists using the specified tag |
+| `getmp3duration` | (`true`, `false`) whether to calculate mp3 duration using `tcolgate/mp3` (**warning: slow*) |
 
 ### Dependencies
 - [gopkg.in/yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3) (Used for generating files.yaml)
@@ -45,6 +47,20 @@ python mediascan/src/mediajuke.py timidity out/files.midi.yaml
 - [tcolgate/mp3](https://github.com/tcolgate/mp3) (Used for calculating MP3 duration)
     - Note: Mp3 duration calculation can be disabed by setting `getmp3duration: false` in `conf.yaml`. 
     - It's currently disabled because this library is suddenly unexpectedly slow for me.
+
+## Extra Python Scripts Reference
+
+### mediastats Usage
+
+```bash
+python mediascan/src/mediastats.py out/files.yaml
+```
+
+### mediajuke Usage
+```bash
+python mediascan/src/mediajuke.py vlc out/files.yaml
+python mediascan/src/mediajuke.py timidity out/files.midi.yaml
+```
 
 ### Installing Go dependencies with GO111MODULE=off
 
@@ -122,21 +138,6 @@ real	1m18.217s
 user	0m18.136s
 sys	0m14.305s
 ```
-
-## Configuration YAML Reference
-
-| Property | Description |
-| -------- | ----------- |
-| `mediadir` | the path to the directory to be scanned |
-| `mediaexts` | the file extensions to be included in the scan |
-| `excludepath` | path substrings to exclude from scan (case-insensitive) |
-| `excludetitle` | id3 title substrings to exclude from scan results (case-insensitive) |
-| `excludetitle` | id3 artist substrings to exclude from scan results (case-insensitive) |
-| `excludealbum` | id3 album substrings to exclude from scan results (case-insensitive) |
-| `excludegenre` | id3 genre substrings to exclude from scan results (case-insensitive) |
-| `sortby` | (`year`, `artist`, `none`) media file sort options |
-| `groupby` | (`none`, `year`) group media files into playlists using the specified tag |
-| `getmp3duration` | (`true`, `false`) whether to calculate mp3 duration using `tcolgate/mp3` (**warning: slow*) |
 
 ## Installing Dependencies
 
