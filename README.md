@@ -14,7 +14,10 @@
 - Extra scripts:
     - [medistats.py](./mediascan/src/mediastats.py) generates some interesting data plots based on the files in a given `yaml`file
     - [mediajuke.py](./mediascan/src/mediajuke.py) plays a random media file chosen from all the files in a given `yaml` file
-- See Also: [mediatest](https://github.com/bretttolbert/mediatest)
+
+## See Also
+- [mediatest](https://github.com/bretttolbert/mediatest) - Simple way to use PyTest to help you keep your media collections (e.g. mp3 music libraries) organized
+- [mediaserver](https://github.com/bretttolbert/mediaserver) - A minimalist Flask web application for browsing and playing music files
 
 ## mediascan.go Usage
 
