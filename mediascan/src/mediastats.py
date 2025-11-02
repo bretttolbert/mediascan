@@ -42,7 +42,7 @@ def load_files_yaml(yaml_fname: str) -> MediaFiles:
 
 def get_year_counts(files: MediaFiles) -> Dict[int, int]:
     counts: Dict[int, int] = {}
-    for file in files.mediafiles:
+    for file in files.files:
         year = int(file.year)
         if year in counts:
             counts[year] += 1
@@ -55,7 +55,7 @@ def get_genre_counts(
     files: MediaFiles, min_val: int, reverse_sort: bool = False
 ) -> Dict[str, int]:
     counts: Dict[str, int] = {}
-    for file in files.mediafiles:
+    for file in files.files:
         genre = file.genre
         if genre in counts:
             counts[genre] += 1
@@ -71,19 +71,19 @@ def get_genre_counts(
 
 
 def get_file_sizes(files: MediaFiles) -> List[int]:
-    return [int(f.size) for f in files.mediafiles]
+    return [int(f.size) for f in files.files]
 
 
 def get_file_durations(files: MediaFiles) -> List[int]:
-    return [int(f.duration) for f in files.mediafiles]
+    return [int(f.duration) for f in files.files]
 
 
 def get_years(files: MediaFiles):
-    return [int(f.year) for f in files.mediafiles]
+    return [int(f.year) for f in files.files]
 
 
 def plt_year_counts(files: MediaFiles):
-    counts: Dict[int, int] = get_year_counts(data)
+    counts: Dict[int, int] = get_year_counts(files)
     df = pd.DataFrame({"year": counts.keys(), "count": counts.values()})
     df.plot.bar(x="year", y="count", rot=90)  # type: ignore
 
@@ -129,7 +129,7 @@ def plt_year_vs_duration(files: MediaFiles):
 
 def print_genres(files: MediaFiles):
     genres: Set[str] = set()  # type: ignore
-    for f in files.mediafiles:
+    for f in files.files:
         genres.add(f.genre)
     print(sorted(genres))
 
@@ -142,7 +142,7 @@ def print_genre_counts(files: MediaFiles):
 def get_album_paths(files: MediaFiles) -> Set[Tuple[str, str]]:
     """returns set of tuples of (album,path)"""
     albums: Set[Tuple[str, str]] = set()
-    for f in files.mediafiles:
+    for f in files.files:
         albums.add((f.album, os.path.dirname(f.path)))
     return albums
 

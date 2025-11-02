@@ -46,8 +46,8 @@ type MediaFile struct {
 	ModTime     time.Time
 }
 
-type MediaFileList struct {
-	MediaFiles []MediaFile
+type MediaFiles struct {
+	Files []MediaFile
 }
 
 type MediaFilePlaylistList struct {
@@ -134,7 +134,7 @@ func main() {
 	configYamlFilepath := os.Args[1]
 	outputYamlFilepath := os.Args[2]
 	conf := loadConf(configYamlFilepath)
-	var mediaFileList MediaFileList
+	var files MediaFiles
 	countLoadFailed := 0
 	countTagsFailed := 0
 	countSkipped := 0
@@ -216,7 +216,7 @@ func main() {
 					m.Duration = getMp3Duration(path)
 				}
 
-				mediaFileList.MediaFiles = append(mediaFileList.MediaFiles, m)
+				files.Files = append(files.Files, m)
 
 				return nil
 			})
@@ -227,16 +227,16 @@ func main() {
 	}
 
 	if conf.SortBy == "year" {
-		sort.SliceStable(mediaFileList.MediaFiles, func(i, j int) bool {
-			return mediaFileList.MediaFiles[i].Year < mediaFileList.MediaFiles[j].Year
+		sort.SliceStable(files.Files, func(i, j int) bool {
+			return files.Files[i].Year < files.Files[j].Year
 		})
 	} else if conf.SortBy == "artist" {
-		sort.SliceStable(mediaFileList.MediaFiles, func(i, j int) bool {
-			return mediaFileList.MediaFiles[i].Artist < mediaFileList.MediaFiles[j].Artist
+		sort.SliceStable(files.Files, func(i, j int) bool {
+			return files.Files[i].Artist < files.Files[j].Artist
 		})
 	}
 
-	log.Printf("Successfully loaded %d media files", len(mediaFileList.MediaFiles))
+	log.Printf("Successfully loaded %d media files", len(files.Files))
 	if countLoadFailed > 0 {
 		log.Printf("Failed to load for %d media files", countLoadFailed)
 	}
@@ -250,7 +250,7 @@ func main() {
 	if conf.GroupBy == "year" {
 		var mediaFilePlaylistList MediaFilePlaylistList
 		mediaFilePlaylistList.Playlists = make(map[string][]MediaFile)
-		for _, m := range mediaFileList.MediaFiles {
+		for _, m := range files.Files {
 			year := strconv.FormatInt(int64(m.Year), 10)
 			_, ok := mediaFilePlaylistList.Playlists[year]
 			if !ok {
@@ -263,7 +263,7 @@ func main() {
 		err2 := os.WriteFile(outputYamlFilepath, yamlData, 0644)
 		check(err2)
 	} else {
-		yamlData, err := yaml.Marshal(&mediaFileList)
+		yamlData, err := yaml.Marshal(&files)
 		check(err)
 		err2 := os.WriteFile(outputYamlFilepath, yamlData, 0644)
 		check(err2)

@@ -12,4 +12,4 @@ class MediaFiles(YAMLWizard):
 
     """
 
-    mediafiles: list[MediaFile]
+    files: list[MediaFile]
