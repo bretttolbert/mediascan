@@ -1,3 +1,13 @@
-files.yaml
-files.midi.yaml
+out/files.yaml
+out/files.midi.yaml
+*.log
+.eggs
+*.egg-info
+.tox/
+__pycache__
+dist
+build
+.coverage
+coverage.xml
+.vscode
 *.log

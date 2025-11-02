@@ -1,0 +1,16 @@
+mediadirs: 
+    - /data/Music
+    - /data/MusicOther
+mediaexts:
+    - .mp3
+    - .m4a
+excludepaths:
+    - Sepulga
+excludetitle: []
+excludeartist: []
+excludealbumartist: []
+excludealbum: []
+excludegenre: []
+sortby: year
+groupby: none
+getmp3duration: false
