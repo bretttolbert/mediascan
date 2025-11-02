@@ -1,6 +1,12 @@
 # mediascan
 
-A simple and fast Go (golang) command-line utility to recursively scan a directory for media files, extract metadata (including ID3v2 tags from both MP3 and M4A files), and save the output in a simple yaml format e.g. [files.yaml](files.yaml). 
+`mediascan.go` - A simple and fast Go (golang) command-line utility to recursively scan a directory for media files, extract metadata (including ID3v2 tags from both MP3 and M4A files), and save the output in a simple YAML format e.g. [files.yaml](/out/files.yaml). 
+
+`mediascan` Python library for working the YAML files output by `mediascan.go`. 
+See:
+- [`Genre`](./mediascan/src/genres.py)
+- [`MediaFiles`](./mediascan/src/mediafiles.py)
+- [`MediaFile`](./mediascan/src/mediafile.py)
 
 ## Features
 
@@ -15,20 +21,20 @@ A simple and fast Go (golang) command-line utility to recursively scan a directo
 ## mediascan Usage
 
 ```bash
-go run mediascan.go conf.yaml files.yaml
-go run mediascan.go conf.midi.yaml files.midi.yaml
+go run mediascan/src/mediascan.go conf/conf.yaml out/files.yaml
+go run mediascan/src/mediascan.go conf/conf.midi.yaml out/files.midi.yaml
 ```
 
 ## mediastats Usage
 
 ```bash
-./mediastats.py files.yaml
+python mediascan/src/mediastats.py out/files.yaml
 ```
 
 ## mediajuke Usage
 ```bash
-./mediajuke.py vlc files.yaml
-./mediajuke.py timidity files.midi.yaml
+python mediascan/src/mediajuke.py vlc out/files.yaml
+python mediascan/src/mediajuke.py timidity out/files.midi.yaml
 ```
 
 ### Dependencies
